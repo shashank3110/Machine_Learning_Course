@@ -22,8 +22,9 @@ def load_yale_faces(data_directory):
     
     print(f'file names ={file_names}')
     for f in file_names:
-
-        images.append(skimage.data.imread(f))
+        im=skimage.data.imread(f)
+        print(im.shape)
+        images.append(im)
             
     return np.array(images)
 img=load_yale_faces(data_directory)
@@ -45,7 +46,7 @@ print(X)
 
 print(X.shape)
 X_mean=np.mean(X,axis=0)
-X_hat=X-np.ones((166,1))*X_mean.T
+X_hat=X-np.ones((165,1))*X_mean.T
 #%%
 #PCA using SVD
 
@@ -56,7 +57,7 @@ u,s,vt=sla.svds(X_hat,k=num_eig_val)
 
 #DR/Recon/Recon Error 
 Z=np.matmul(X_hat,vt.T) #DR version of X
-X_recon=np.ones((166,1))*X_mean.T + np.matmul(Z,vt)
+X_recon=np.ones((165,1))*X_mean.T + np.matmul(Z,vt)
 recon_error=np.linalg.norm((X-X_recon),ord=2)
 
 
